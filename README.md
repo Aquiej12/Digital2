@@ -1,4 +1,4 @@
-# Sopas Lakymen de Pollo — Red de sensores y actuadores por I²C
+# Preparador de sopas 3000 — Red de sensores y actuadores por I²C
 
 Máquina automática que prepara sopas instantáneas de forma secuencial (detecta el
 recipiente, lo transporta, dispensa condimentos, vierte agua, coloca la tapa y
