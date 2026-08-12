@@ -1,0 +1,207 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[landscape, margin=1.2cm]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, calc}
+\pagestyle{empty}
+
+\tikzset{
+    chip/.style = {draw, very thick, fill=blue!8, rounded corners,
+                   minimum width=3.6cm, align=center},
+    comp/.style = {draw, thick, fill=gray!8, rounded corners, align=center, inner sep=4pt},
+    pin/.style  = {font=\footnotesize},
+    wire/.style = {thick},
+    bus/.style  = {line width=1.6pt},
+    res/.style  = {draw, thick, fill=white, font=\scriptsize, minimum width=0.7cm, minimum height=0.3cm},
+}
+% tierra: coordenada del punto superior
+\newcommand{\ground}[1]{%
+  \draw[wire] (#1)--($(#1)+(0,-0.22)$);
+  \draw[wire] ($(#1)+(-0.22,-0.22)$)--($(#1)+(0.22,-0.22)$);
+  \draw[wire] ($(#1)+(-0.13,-0.32)$)--($(#1)+(0.13,-0.32)$);
+  \draw[wire] ($(#1)+(-0.05,-0.42)$)--($(#1)+(0.05,-0.42)$);
+}
+
+\begin{document}
+
+% =========================================================
+% PAGINA 1 - MAESTRO
+% =========================================================
+\begin{center}\Large\textbf{Esquemático — Nodo Maestro (Arduino Nano)}\end{center}
+\vspace{0.1cm}
+\begin{center}
+\begin{tikzpicture}[font=\small]
+
+\node[chip, minimum height=9.5cm] (u) at (0,0) {};
+\node at (0,4.3) {\textbf{ARDUINO NANO}};
+\node at (0,3.85) {\textbf{MAESTRO}};
+
+% pines derecha (digitales)
+\foreach \p/\y in {D2/3.2, D3/2.6, D4/2.0, D5/1.4, D6/0.8, D7/0.2, D8/-0.4, D9/-1.0, D10/-1.6, D11/-2.2, D12/-2.8, D13/-3.6}{
+    \draw[wire] (1.8,\y)--(2.3,\y);
+    \node[pin, anchor=west] at (1.85,\y+0.16) {\p};
+}
+% pines izquierda
+\foreach \p/\y in {{D1 (TX)}/3.2, {D0 (RX)}/2.6, A1/1.4, A2/0.8, {A4 SDA}/-1.6, {A5 SCL}/-2.2, 5V/-3.4, GND/-4.0}{
+    \draw[wire] (-1.8,\y)--(-2.3,\y);
+    \node[pin, anchor=east] at (-1.85,\y+0.16) {\p};
+}
+
+% LCD 2x16
+\node[comp, minimum width=3.4cm, minimum height=3.8cm] (lcd) at (6.6,1.4)
+     {\textbf{LCD 2x16}\\ (8 bits)\\[6pt]
+      RS $\leftarrow$ D2\\ RW $\leftarrow$ D3\\ E\ $\ \leftarrow$ D4\\
+      D0..D7 $\leftarrow$\\ D5..D12};
+\draw[wire] (2.3,3.2)--(4.9,3.0);
+\draw[wire] (2.3,2.6)--(4.9,2.5);
+\draw[wire] (2.3,2.0)--(4.9,2.0);
+\draw[bus]  (2.3,1.1)--(4.9,1.0);
+\node[pin] at (3.4,1.35) {/8 datos};
+
+% Servo 360 (D13)
+\node[comp, minimum width=2.6cm] (s360) at (6.6,-3.6) {Servo 360\\ (giro continuo)};
+\draw[wire] (2.3,-3.6)--(s360.west);
+\node[pin,anchor=south] at (4.2,-3.55) {señal};
+
+% LED (A1)
+\node[comp] (led) at (-6.4,1.4) {LED};
+\draw[wire] (-2.3,1.4)--(led.east);
+\draw[wire] (led.south)--(-6.4,0.7);
+\ground{-6.4,0.7}
+
+% START (A2)
+\node[comp] (btn) at (-6.4,-0.1) {START};
+\draw[wire] (-2.3,0.8)--(-4.2,0.8)--(-4.2,-0.1)--(btn.east);
+\draw[wire] (btn.south)--(-6.4,-0.8);
+\ground{-6.4,-0.8}
+
+% ESP32 (UART D0/D1)
+\node[comp, minimum width=2.4cm] (esp) at (-6.4,3.0) {ESP32\\ (level-shifter)};
+\draw[wire] (-2.3,3.2)--(-5.2,3.15);
+\draw[wire] (-2.3,2.6)--(-5.2,2.85);
+
+% Bus I2C + pull-ups + MPR121
+\draw[bus] (-6.8,-2.0)--(-0.8,-2.0);   % SDA
+\draw[bus] (-6.8,-2.7)--(-0.8,-2.7);   % SCL
+\node[pin,anchor=west] at (-0.8,-2.0) {SDA};
+\node[pin,anchor=west] at (-0.8,-2.7) {SCL};
+\draw[wire] (-2.3,-1.6)--(-1.3,-1.6)--(-1.3,-2.0);
+\draw[wire] (-2.3,-2.2)--(-1.6,-2.2)--(-1.6,-2.7);
+% pull-ups a 5V
+\node[pin] at (-5.0,-0.85) {+5V};
+\draw[wire] (-5.7,-1.1)--(-5.7,-2.0);
+\node[res] at (-5.7,-1.55) {4.7k};
+\draw[wire] (-4.3,-1.1)--(-4.3,-2.7);
+\node[res] at (-4.3,-1.55) {4.7k};
+\draw[wire] (-5.7,-1.1)--(-4.3,-1.1);
+% MPR121
+\node[comp] (mpr) at (-6.5,-3.6) {MPR121\\ 0x5A};
+\draw[wire] (-6.7,-3.15)--(-6.7,-2.0);
+\draw[wire] (-6.3,-3.15)--(-6.3,-2.7);
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+% =========================================================
+% PAGINA 2 - ESCLAVO 1
+% =========================================================
+\begin{center}\Large\textbf{Esquemático — Nodo Esclavo 1 / Corredera (0x30)}\end{center}
+\vspace{0.1cm}
+\begin{center}
+\begin{tikzpicture}[font=\small]
+
+\node[chip, minimum height=8cm] (u) at (0,0) {};
+\node at (0,3.4) {\textbf{ARDUINO NANO}};
+\node at (0,2.95) {\small\textbf{ESCLAVO 1 (0x30)}};
+
+\foreach \p/\y in {D2/2.6, D3/2.0, D4/1.4, D5/0.6, D6/0.0, D10/-1.2, D11/-1.8}{
+    \draw[wire] (1.8,\y)--(2.3,\y);
+    \node[pin, anchor=west] at (1.85,\y+0.16) {\p};
+}
+\foreach \p/\y in {{A4 SDA}/-2.4, {A5 SCL}/-3.0}{
+    \draw[wire] (-1.8,\y)--(-2.3,\y);
+    \node[pin, anchor=east] at (-1.85,\y+0.16) {\p};
+}
+
+\node[comp] (ir) at (5.6,2.6) {Sensor IR\\ (OUT $\to$ D2)};
+\draw[wire] (2.3,2.6)--(ir.west);
+\node[comp, minimum width=2.8cm] (us) at (5.8,1.4) {HC-SR04\\ TRIG$\leftarrow$D3, ECHO$\to$D4};
+\draw[wire] (2.3,2.0)--(4.0,2.0)--(4.0,1.7)--(4.4,1.7);
+\draw[wire] (2.3,1.4)--(us.west);
+\node[comp, minimum width=2.6cm] (l298) at (5.8,-0.3) {Driver L298\\ IN1$\leftarrow$D5, IN2$\leftarrow$D6};
+\draw[wire] (2.3,0.6)--(3.8,0.6)--(3.8,0.0)--(4.5,0.0);
+\draw[wire] (2.3,0.0)--(3.6,0.0)--(3.6,-0.3)--(l298.west);
+\node[comp] (motor) at (9.6,-0.3) {Motor DC\\ corredera};
+\draw[wire] (l298.east)--(motor.west);
+\node[comp] (st) at (5.8,-1.2) {Servo Tapadera\\ (señal $\leftarrow$ D10)};
+\draw[wire] (2.3,-1.2)--(st.west);
+\node[comp] (sc) at (5.8,-2.2) {Servo Corredera\\ (señal $\leftarrow$ D11)};
+\draw[wire] (2.3,-1.8)--(4.0,-1.8)--(4.0,-2.2)--(sc.west);
+
+\draw[bus] (-6.4,-2.4)--(-1.0,-2.4);
+\draw[bus] (-6.4,-3.0)--(-1.0,-3.0);
+\node[pin,anchor=west] at (-1.0,-2.4) {SDA};
+\node[pin,anchor=west] at (-1.0,-3.0) {SCL};
+\draw[wire] (-2.3,-2.4)--(-1.0,-2.4);
+\draw[wire] (-2.3,-3.0)--(-1.0,-3.0);
+\node[comp, text width=3cm] (nota1) at (-4.6,-1.4) {Bus I2C común (pull-ups 4.7k en un solo punto)};
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+% =========================================================
+% PAGINA 3 - ESCLAVO 2
+% =========================================================
+\begin{center}\Large\textbf{Esquemático — Nodo Esclavo 2 / Dispensado (0x31)}\end{center}
+\vspace{0.1cm}
+\begin{center}
+\begin{tikzpicture}[font=\small]
+
+\node[chip, minimum height=8.5cm] (u) at (0,0) {};
+\node at (0,3.6) {\textbf{ARDUINO NANO}};
+\node at (0,3.15) {\small\textbf{ESCLAVO 2 (0x31)}};
+
+\foreach \p/\y in {D2/2.8, D3/2.3, D4/1.8, D5/1.3, D6/0.4, D7/-0.1, D8/-0.6, D9/-1.1, D10/-2.0, D11/-2.6}{
+    \draw[wire] (1.8,\y)--(2.3,\y);
+    \node[pin, anchor=west] at (1.85,\y+0.14) {\p};
+}
+\foreach \p/\y in {A1/2.5, {A4 SDA}/-3.0, {A5 SCL}/-3.6}{
+    \draw[wire] (-1.8,\y)--(-2.3,\y);
+    \node[pin, anchor=east] at (-1.85,\y+0.16) {\p};
+}
+
+\node[comp] (temp) at (-5.8,2.5) {HW-503\\ temperatura};
+\draw[wire] (-2.3,2.5)--(temp.east);
+
+\node[comp, minimum width=3cm, minimum height=1.4cm] (uln1) at (5.8,2.05) {ULN2003\\ IN1..IN4 $\leftarrow$ D2..D5};
+\draw[bus] (2.3,2.3)--(3.6,2.3)--(3.6,2.05)--(uln1.west);
+\node[pin] at (3.0,2.5) {/4};
+\node[comp] (st1) at (9.8,2.05) {Stepper 28BYJ-48\\ (condimento)};
+\draw[wire] (uln1.east)--(st1.west);
+
+\node[comp, minimum width=3cm, minimum height=1.4cm] (uln2) at (5.8,-0.35) {ULN2003\\ IN1..IN4 $\leftarrow$ D6..D9};
+\draw[bus] (2.3,-0.35)--(3.6,-0.35)--(uln2.west);
+\node[pin] at (3.0,-0.15) {/4};
+\node[comp] (st2) at (9.8,-0.35) {Stepper 28BYJ-48\\ (chile)};
+\draw[wire] (uln2.east)--(st2.west);
+
+\node[comp] (caf) at (5.8,-2.0) {Servo cafetera\\ (giro cont. $\leftarrow$ D10)};
+\draw[wire] (2.3,-2.0)--(caf.west);
+\node[comp] (relay) at (5.8,-2.9) {Relé (IN $\leftarrow$ D11)};
+\draw[wire] (2.3,-2.6)--(4.0,-2.6)--(4.0,-2.9)--(relay.west);
+
+\draw[bus] (-6.4,-3.0)--(-1.0,-3.0);
+\draw[bus] (-6.4,-3.6)--(-1.0,-3.6);
+\node[pin,anchor=west] at (-1.0,-3.0) {SDA};
+\node[pin,anchor=west] at (-1.0,-3.6) {SCL};
+\draw[wire] (-2.3,-3.0)--(-1.0,-3.0);
+\draw[wire] (-2.3,-3.6)--(-1.0,-3.6);
+
+\end{tikzpicture}
+\end{center}
+
+\end{document}

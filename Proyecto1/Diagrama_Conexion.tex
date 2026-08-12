@@ -1,0 +1,91 @@
+\documentclass[border=12pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, backgrounds, shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\small,
+    nano/.style   = {draw, thick, rounded corners, fill=blue!12,
+                     minimum width=3.2cm, minimum height=1.2cm, align=center},
+    esp/.style    = {draw, thick, rounded corners, fill=violet!14,
+                     minimum width=3.2cm, minimum height=1.1cm, align=center},
+    mpr/.style    = {draw, thick, rounded corners, fill=green!14,
+                     minimum width=3.2cm, minimum height=0.95cm, align=center},
+    perif/.style  = {draw, fill=gray!8, align=left, text width=4.8cm,
+                     inner sep=5pt, rounded corners},
+    cloud/.style  = {draw, thick, ellipse, fill=orange!18,
+                     minimum width=3.2cm, minimum height=1.4cm, align=center},
+    bus/.style    = {line width=1.4pt},
+    wire/.style   = {thick},
+    uart/.style   = {thick, {Latex[length=2mm]}-{Latex[length=2mm]}}
+]
+
+% ===================== BUS I2C =====================
+\draw[bus] (2,6.5) -- (17.5,6.5);
+\node[above=1pt] at (9.75,6.55)
+    {\textbf{BUS I\textsuperscript{2}C}\quad SDA = A4\;\textbullet\;SCL = A5\;\textbullet\;pull-ups 4.7\,k$\Omega$ a +5V};
+% pull-up simbolico a +5V
+\draw[wire] (2.7,6.5) -- (2.7,7.5) node[above, font=\footnotesize] {+5V};
+\node[font=\footnotesize] at (3.35,7.0) {4.7k};
+
+% ===================== NODOS SOBRE EL BUS =====================
+\node[nano] (master) at (4.5,4.5)  {\textbf{MAESTRO}\\ Arduino Nano\\ (FSM del proceso)};
+\node[nano] (slave1) at (10.5,4.5) {\textbf{ESCLAVO 1}\\ Arduino Nano\\ 0x30};
+\node[nano] (slave2) at (16.5,4.5) {\textbf{ESCLAVO 2}\\ Arduino Nano\\ 0x31};
+
+% MPR121 colgado del bus
+\node[mpr] (mpr) at (7.5,8) {MPR121 táctil\\ 0x5A (level-shifter)};
+\draw[wire] (7.5,6.5) -- (mpr.south);
+
+% conexiones nodo -> bus (SDA/SCL)
+\foreach \x in {4.5, 10.5, 16.5}{
+    \draw[wire] (\x,5.1) -- (\x,6.5) node[midway,right,font=\footnotesize] {SDA/SCL};
+}
+
+% ===================== ESP32 + NUBE (UART / WiFi) =====================
+\node[esp]   (esp)  at (-0.5,2.5) {\textbf{ESP32} DevKit v1\\ (WiFi + Adafruit)};
+\node[cloud] (nube) at (-0.5,5.3) {\textbf{Adafruit IO}\\ Dashboard};
+\draw[uart] (esp.north) -- (master.west) node[midway,above,sloped,font=\footnotesize] {UART D0/D1};
+\draw[thick, dashed, {Latex}-{Latex}] (esp.north) -- (nube.south)
+      node[midway, right, font=\footnotesize] {WiFi};
+
+% ===================== PERIFERICOS (paneles bajo cada nodo) =====================
+\node[perif] (mp) at (4.5,1.35) {%
+    \textbf{Periféricos del maestro}\\[2pt]
+    LCD 2x16 (8 bits): D2--D12\\
+    Servo 360 giro continuo: D13\\
+    Botón START: A2\\
+    LED táctil: A1};
+
+\node[perif] (s1p) at (10.5,1.05) {%
+    \textbf{Esclavo 1 -- corredera}\\[2pt]
+    IR presencia: D2\\
+    Ultrasónico: TRIG D3 / ECHO D4\\
+    Motor DC (L298): IN1 D5 / IN2 D6\\
+    Servo corredera: D11\\
+    Servo tapadera: D10};
+
+\node[perif] (s2p) at (16.5,1.05) {%
+    \textbf{Esclavo 2 -- dispensado}\\[2pt]
+    HW-503 temperatura: A1\\
+    Stepper condimento (ULN2003): D2--D5\\
+    Stepper chile (ULN2003): D6--D9\\
+    Servo cafetera (giro continuo): D10\\
+    Relé: D11};
+
+% lineas nodo -> panel
+\draw[wire] (master.south) -- (mp.north);
+\draw[wire] (slave1.south) -- (s1p.north);
+\draw[wire] (slave2.south) -- (s2p.north);
+
+% ===================== NOTA =====================
+\node[align=left, font=\footnotesize, anchor=north west] at (-1.5,-1.6) {%
+    Notas: GND común a todos los nodos. Servomotores y motor DC con fuente de 5V\\
+    independiente (GND común). El maestro concentra la lógica; los esclavos solo\\
+    reportan sensores y ejecutan comandos vía el mapa de registros I\textsuperscript{2}C.};
+
+\end{tikzpicture}
+\end{document}
