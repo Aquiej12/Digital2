@@ -156,9 +156,7 @@ void revisarGanador(void)
     }
 }
 
-// Cuenta regresiva de 5 a 0. Se llama desde el while(1) del main, NUNCA
-// desde una interrupción (HAL_Delay depende del SysTick, que no puede
-// avanzar mientras se ejecuta código dentro de una ISR de mayor prioridad).
+// Cuenta regresiva de 5 a 0.
 void iniciarCuentaRegresiva(void)
 {
     carreraActiva = 0;
