@@ -1,0 +1,10 @@
+22:39:53 **** Incremental Build of configuration Debug for project LAB4_Carrera2 ****
+make -j12 all 
+arm-none-eabi-size  LAB4_Carrera2.elf 
+   text	   data	    bss	    dec	    hex	filename
+   8380	     12	   1588	   9980	   26fc	LAB4_Carrera2.elf
+Finished building: default.size.stdout
+ 
+
+22:39:53 Build Finished. 0 errors, 0 warnings. (took 258ms)
+
