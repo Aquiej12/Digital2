@@ -1,10 +1,134 @@
-22:39:53 **** Incremental Build of configuration Debug for project LAB4_Carrera2 ****
+18:58:47 **** Incremental Build of configuration Debug for project LAB4_Carrera2 ****
 make -j12 all 
-arm-none-eabi-size  LAB4_Carrera2.elf 
-   text	   data	    bss	    dec	    hex	filename
-   8380	     12	   1588	   9980	   26fc	LAB4_Carrera2.elf
-Finished building: default.size.stdout
- 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:45:1: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'DMA_HandleTypeDef'?
+   45 | TIM_HandleTypeDef htim2;
+      | ^~~~~~~~~~~~~~~~~
+      | DMA_HandleTypeDef
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:112:11: error: implicit declaration of function 'HAL_TIM_IC_Start_IT'; did you mean 'HAL_DMA_Start_IT'? [-Wimplicit-function-declaration]
+  112 |           HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
+      |           ^~~~~~~~~~~~~~~~~~~
+      |           HAL_DMA_Start_IT
+../Core/Src/main.c:112:39: error: 'TIM_CHANNEL_1' undeclared (first use in this function); did you mean 'DMA_CHANNEL_1'?
+  112 |           HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
+      |                                       ^~~~~~~~~~~~~
+      |                                       DMA_CHANNEL_1
+../Core/Src/main.c:112:39: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c: In function 'MX_TIM2_Init':
+../Core/Src/main.c:194:3: error: unknown type name 'TIM_ClockConfigTypeDef'; did you mean 'EXTI_ConfigTypeDef'?
+  194 |   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+      |   ^~~~~~~~~~~~~~~~~~~~~~
+      |   EXTI_ConfigTypeDef
+../Core/Src/main.c:195:3: error: unknown type name 'TIM_MasterConfigTypeDef'
+  195 |   TIM_MasterConfigTypeDef sMasterConfig = {0};
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:196:3: error: unknown type name 'TIM_IC_InitTypeDef'; did you mean 'DMA_InitTypeDef'?
+  196 |   TIM_IC_InitTypeDef sConfigIC = {0};
+      |   ^~~~~~~~~~~~~~~~~~
+      |   DMA_InitTypeDef
+../Core/Src/main.c:201:8: error: request for member 'Instance' in something not a structure or union
+  201 |   htim2.Instance = TIM2;
+      |        ^
+../Core/Src/main.c:202:8: error: request for member 'Init' in something not a structure or union
+  202 |   htim2.Init.Prescaler = 48-1;
+      |        ^
+../Core/Src/main.c:203:8: error: request for member 'Init' in something not a structure or union
+  203 |   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+      |        ^
+../Core/Src/main.c:203:28: error: 'TIM_COUNTERMODE_UP' undeclared (first use in this function)
+  203 |   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+      |                            ^~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:204:8: error: request for member 'Init' in something not a structure or union
+  204 |   htim2.Init.Period = 4294967295;
+      |        ^
+../Core/Src/main.c:205:8: error: request for member 'Init' in something not a structure or union
+  205 |   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+      |        ^
+../Core/Src/main.c:205:30: error: 'TIM_CLOCKDIVISION_DIV1' undeclared (first use in this function)
+  205 |   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+      |                              ^~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:206:8: error: request for member 'Init' in something not a structure or union
+  206 |   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+      |        ^
+../Core/Src/main.c:206:34: error: 'TIM_AUTORELOAD_PRELOAD_ENABLE' undeclared (first use in this function)
+  206 |   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:207:7: error: implicit declaration of function 'HAL_TIM_Base_Init' [-Wimplicit-function-declaration]
+  207 |   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c:211:21: error: request for member 'ClockSource' in something not a structure or union
+  211 |   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+      |                     ^
+../Core/Src/main.c:211:36: error: 'TIM_CLOCKSOURCE_INTERNAL' undeclared (first use in this function)
+  211 |   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:212:7: error: implicit declaration of function 'HAL_TIM_ConfigClockSource' [-Wimplicit-function-declaration]
+  212 |   if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:216:7: error: implicit declaration of function 'HAL_TIM_IC_Init'; did you mean 'HAL_DMA_Init'? [-Wimplicit-function-declaration]
+  216 |   if (HAL_TIM_IC_Init(&htim2) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~
+      |       HAL_DMA_Init
+../Core/Src/main.c:220:16: error: request for member 'MasterOutputTrigger' in something not a structure or union
+  220 |   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+      |                ^
+../Core/Src/main.c:220:39: error: 'TIM_TRGO_RESET' undeclared (first use in this function)
+  220 |   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+      |                                       ^~~~~~~~~~~~~~
+../Core/Src/main.c:221:16: error: request for member 'MasterSlaveMode' in something not a structure or union
+  221 |   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+      |                ^
+../Core/Src/main.c:221:35: error: 'TIM_MASTERSLAVEMODE_DISABLE' undeclared (first use in this function)
+  221 |   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:222:7: error: implicit declaration of function 'HAL_TIMEx_MasterConfigSynchronization'; did you mean 'HAL_TIM_SlaveConfigSynchronization'? [-Wimplicit-function-declaration]
+  222 |   if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |       HAL_TIM_SlaveConfigSynchronization
+../Core/Src/main.c:226:12: error: request for member 'ICPolarity' in something not a structure or union
+  226 |   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+      |            ^
+../Core/Src/main.c:226:26: error: 'TIM_INPUTCHANNELPOLARITY_RISING' undeclared (first use in this function)
+  226 |   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:227:12: error: request for member 'ICSelection' in something not a structure or union
+  227 |   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+      |            ^
+../Core/Src/main.c:227:27: error: 'TIM_ICSELECTION_DIRECTTI' undeclared (first use in this function)
+  227 |   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+      |                           ^~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:228:12: error: request for member 'ICPrescaler' in something not a structure or union
+  228 |   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+      |            ^
+../Core/Src/main.c:228:27: error: 'TIM_ICPSC_DIV1' undeclared (first use in this function)
+  228 |   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+      |                           ^~~~~~~~~~~~~~
+../Core/Src/main.c:229:12: error: request for member 'ICFilter' in something not a structure or union
+  229 |   sConfigIC.ICFilter = 0;
+      |            ^
+../Core/Src/main.c:230:7: error: implicit declaration of function 'HAL_TIM_IC_ConfigChannel' [-Wimplicit-function-declaration]
+  230 |   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:230:52: error: 'TIM_CHANNEL_1' undeclared (first use in this function); did you mean 'DMA_CHANNEL_1'?
+  230 |   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+      |                                                    ^~~~~~~~~~~~~
+      |                                                    DMA_CHANNEL_1
+../Core/Src/main.c: In function 'MX_GPIO_Init':
+../Core/Src/main.c:259:21: error: 'LD2_GPIO_Port' undeclared (first use in this function); did you mean 'B_P2_GPIO_Port'?
+  259 |   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+      |                     ^~~~~~~~~~~~~
+      |                     B_P2_GPIO_Port
+../Core/Src/main.c:259:36: error: 'LD2_Pin' undeclared (first use in this function)
+  259 |   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+      |                                    ^~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:289:33: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'DMA_HandleTypeDef'?
+  289 | void HAL_TIM_IC_CaptureCAllback(TIM_HandleTypeDef *htim){
+      |                                 ^~~~~~~~~~~~~~~~~
+      |                                 DMA_HandleTypeDef
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
 
-22:39:53 Build Finished. 0 errors, 0 warnings. (took 258ms)
+18:58:48 Build Failed. 38 errors, 0 warnings. (took 967ms)
 

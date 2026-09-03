@@ -345,3 +345,263 @@ COM12
 
 !ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-25 22:36:08.531
 !MESSAGE port: COM12
+!SESSION 2026-08-27 17:25:55.197 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_GT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2026-08-27 17:25:56.646
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-27 17:26:02.485
+!MESSAGE Log4j2 initialized with config file C:\Users\abner\Documents\GitHub\Digital2\STM\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-27 17:26:08.199
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:26:09.775
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:26:09.775
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:30:02.129
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:30:02.132
+!MESSAGE port: 
+!SESSION 2026-08-27 17:47:41.679 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_GT
+Framework arguments:  C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-27 17:47:48.015
+!MESSAGE Log4j2 initialized with config file C:\Users\abner\Documents\GitHub\Digital2\STM\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-27 17:47:52.870
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 17:47:56.892
+!MESSAGE Indexed 'TimerTiempo' (22 sources, 147 headers) in 3.4 sec: 14,413 declarations; 64,710 references; 5 unresolved inclusions; 125 syntax errors; 1,319 unresolved names (1.6 %)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:48:08.583
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:48:08.584
+!MESSAGE port: 
+!SESSION 2026-08-27 17:54:20.076 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_GT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-27 17:54:39.577
+!MESSAGE Log4j2 initialized with config file C:\Users\abner\Documents\GitHub\Digital2\STM\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:55:12.434
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 17:55:12.438
+!MESSAGE port: 
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-27 17:55:12.543
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 18:11:55.053
+!MESSAGE Indexed 'TimerTiempo' (21 sources, 118 headers) in 5.9 sec: 12,379 declarations; 61,500 references; 1 unresolved inclusions; 92 syntax errors; 238 unresolved names (0.32 %)
+!SESSION 2026-08-27 18:19:37.317 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_GT
+Framework arguments:  C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-27 18:19:42.913
+!MESSAGE Log4j2 initialized with config file C:\Users\abner\Documents\GitHub\Digital2\STM\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-27 18:19:50.172
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:19:51.105
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:19:51.107
+!MESSAGE port: 
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 18:19:53.322
+!MESSAGE Indexed 'TimerTiempo' (21 sources, 118 headers) in 2.76 sec: 12,379 declarations; 61,500 references; 1 unresolved inclusions; 92 syntax errors; 238 unresolved names (0.32 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 18:22:18.896
+!MESSAGE Indexed 'TimerTiempo' (21 sources, 117 headers) in 14 sec: 12,373 declarations; 59,152 references; 5 unresolved inclusions; 1,165 syntax errors; 1,394 unresolved names (1.9 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 18:35:52.673
+!MESSAGE Indexed 'TimerTiempo' (21 sources, 118 headers) in 2.56 sec: 12,387 declarations; 61,541 references; 1 unresolved inclusions; 93 syntax errors; 238 unresolved names (0.32 %)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:43:24.028
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:43:24.029
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:45:29.991
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:45:29.992
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:45:39.909
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:45:39.909
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:46:43.849
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:46:43.850
+!MESSAGE port: 
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 18:50:28.028
+!MESSAGE Indexed 'TimerTiempo' (22 sources, 120 headers) in 1.73 sec: 13,192 declarations; 67,978 references; 1 unresolved inclusions; 92 syntax errors; 238 unresolved names (0.29 %)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:59:08.072
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 18:59:08.074
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:01:05.882
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:01:05.882
+!MESSAGE port: 
+!SESSION 2026-08-27 19:03:03.671 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_GT
+Framework arguments:  C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-08-27 19:03:08.595
+!MESSAGE Log4j2 initialized with config file C:\Users\abner\Documents\GitHub\Digital2\STM\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-08-27 19:03:15.147
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:03:15.993
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:03:15.995
+!MESSAGE port: 
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-08-27 19:03:18.350
+!MESSAGE Indexed 'TimerTiempo' (22 sources, 120 headers) in 2.77 sec: 13,192 declarations; 67,978 references; 1 unresolved inclusions; 92 syntax errors; 238 unresolved names (0.29 %)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:12:03.032
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:12:03.033
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:17:42.025
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:17:42.026
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:18:10.859
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:18:10.859
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:21:00.923
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:21:00.923
+!MESSAGE port: 
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:22:23.937
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:22:23.938
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:25:09.947
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-08-27 19:25:09.948
+!MESSAGE port: 
+!SESSION 2026-09-03 16:07:13.426 -----------------------------------------------
+eclipse.buildId=Version 2.2.0
+java.version=21.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_GT
+Framework arguments:  C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\abner\Documents\GitHub\Digital2\LAB4_Carrera2\TimerTiempo\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-09-03 16:07:19.803
+!MESSAGE Log4j2 initialized with config file C:\Users\abner\Documents\GitHub\Digital2\STM\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-09-03 16:07:27.868
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-09-03 16:07:29.955
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-09-03 16:07:29.956
+!MESSAGE port: 
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-09-03 16:07:33.420
+!MESSAGE Indexed 'TimerTiempo' (22 sources, 123 headers) in 5.11 sec: 13,421 declarations; 68,385 references; 1 unresolved inclusions; 93 syntax errors; 238 unresolved names (0.29 %)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-09-03 16:20:30.018
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM12
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-09-03 16:20:30.020
+!MESSAGE port: COM12
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-09-03 16:29:57.845
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-09-03 16:29:57.846
+!MESSAGE port: 
