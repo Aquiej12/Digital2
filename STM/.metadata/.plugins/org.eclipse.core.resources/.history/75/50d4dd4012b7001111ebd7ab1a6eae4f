@@ -1,0 +1,58 @@
+/*
+ * seven_nation_army.h
+ * Seven Nation Army — The White Stripes (riff principal)
+ *
+ * Riff: E  E  G  E  D  C#  B   (× 2)
+ *
+ * Estructura modular:
+ *   sna_notas[]      → frecuencias (usa defines de notas.h)
+ *   sna_duraciones[]  → duración de cada nota en ms
+ *   SNA_LEN           → cantidad de notas
+ *
+ * Para Lab 7 Post Lab - IE3054 Electrónica Digital 2, UVG
+ */
+
+#ifndef SEVEN_NATION_ARMY_H
+#define SEVEN_NATION_ARMY_H
+
+#include "notas.h"
+
+/* ---- Cantidad de notas ---- */
+#define SNA_LEN  19
+
+/* ---- Frecuencias de cada nota ---- */
+const uint16_t sna_notas[SNA_LEN] = {
+
+    /* Riff 1: E-E-G-E-D...C#-B */
+    NOTE_E4,  NOTE_E4,  NOTE_G4,  NOTE_E4,
+    NOTE_D4,  REST,     NOTE_Cs4, NOTE_B3,
+    REST,
+
+    /* Riff 2: repetición */
+    NOTE_E4,  NOTE_E4,  NOTE_G4,  NOTE_E4,
+    NOTE_D4,  REST,     NOTE_Cs4, NOTE_B3,
+    REST,
+
+    /* Nota final sostenida */
+    NOTE_E4,
+};
+
+/* ---- Duración de cada nota (en ms) ---- */
+const uint16_t sna_duraciones[SNA_LEN] = {
+
+    /* Riff 1 */
+    750,  250,  750,  250,
+    500,  125,  375,  1000,
+    500,
+
+    /* Riff 2 */
+    750,  250,  750,  250,
+    500,  125,  375,  1000,
+    500,
+
+    /* Final */
+    1500,
+};
+
+#endif /* SEVEN_NATION_ARMY_H */
+

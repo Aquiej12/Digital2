@@ -1,429 +1,56 @@
-19:18:04 **** Incremental Build of configuration Debug for project lab6 ****
+23:27:51 **** Incremental Build of configuration Debug for project LAB7 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "lab6.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\abner\Documents\GitHub\Digital2\lab6\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lab6.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: lab6.elf
+arm-none-eabi-gcc -o "LAB7.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\abner\Documents\GitHub\Digital2\LAB7\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LAB7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LAB7.elf
  
-arm-none-eabi-size  lab6.elf 
-arm-none-eabi-objdump -h -S lab6.elf  > "lab6.list"
+arm-none-eabi-size  LAB7.elf 
+arm-none-eabi-objdump -h -S LAB7.elf  > "LAB7.list"
    text	   data	    bss	    dec	    hex	filename
-  19028	     92	   2148	  21268	   5314	lab6.elf
+  25700	     92	   2236	  28028	   6d7c	LAB7.elf
 Finished building: default.size.stdout
  
-Finished building: lab6.list
+Finished building: LAB7.list
  
-19:18:29 **** Incremental Build of configuration Debug for project lab6 ****
+23:39:10 **** Incremental Build of configuration Debug for project LAB7 ****
 make -j12 all 
-arm-none-eabi-size  lab6.elf 
+arm-none-eabi-size  LAB7.elf 
    text	   data	    bss	    dec	    hex	filename
-  19028	     92	   2148	  21268	   5314	lab6.elf
+  25700	     92	   2236	  28028	   6d7c	LAB7.elf
 Finished building: default.size.stdout
  
-19:19:41 **** Incremental Build of configuration Debug for project lab6 ****
-make -j12 all 
-arm-none-eabi-size  lab6.elf 
-   text	   data	    bss	    dec	    hex	filename
-  19028	     92	   2148	  21268	   5314	lab6.elf
-Finished building: default.size.stdout
- 
-11:25:33 **** Build of configuration Debug for project LAB4_Carrera2 ****
+23:45:05 **** Incremental Build of configuration Debug for project LAB7 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c:45:1: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'DMA_HandleTypeDef'?
-   45 | TIM_HandleTypeDef htim2;
-      | ^~~~~~~~~~~~~~~~~
-      | DMA_HandleTypeDef
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:112:11: error: implicit declaration of function 'HAL_TIM_IC_Start_IT'; did you mean 'HAL_DMA_Start_IT'? [-Wimplicit-function-declaration]
-  112 |           HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
-      |           ^~~~~~~~~~~~~~~~~~~
-      |           HAL_DMA_Start_IT
-../Core/Src/main.c:112:39: error: 'TIM_CHANNEL_1' undeclared (first use in this function); did you mean 'DMA_CHANNEL_1'?
-  112 |           HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
-      |                                       ^~~~~~~~~~~~~
-      |                                       DMA_CHANNEL_1
-../Core/Src/main.c:112:39: note: each undeclared identifier is reported only once for each function it appears in
-../Core/Src/main.c: In function 'MX_TIM2_Init':
-../Core/Src/main.c:194:3: error: unknown type name 'TIM_ClockConfigTypeDef'; did you mean 'EXTI_ConfigTypeDef'?
-  194 |   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-      |   ^~~~~~~~~~~~~~~~~~~~~~
-      |   EXTI_ConfigTypeDef
-../Core/Src/main.c:195:3: error: unknown type name 'TIM_MasterConfigTypeDef'
-  195 |   TIM_MasterConfigTypeDef sMasterConfig = {0};
-      |   ^~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:196:3: error: unknown type name 'TIM_IC_InitTypeDef'; did you mean 'DMA_InitTypeDef'?
-  196 |   TIM_IC_InitTypeDef sConfigIC = {0};
-      |   ^~~~~~~~~~~~~~~~~~
-      |   DMA_InitTypeDef
-../Core/Src/main.c:201:8: error: request for member 'Instance' in something not a structure or union
-  201 |   htim2.Instance = TIM2;
-      |        ^
-../Core/Src/main.c:202:8: error: request for member 'Init' in something not a structure or union
-  202 |   htim2.Init.Prescaler = 48-1;
-      |        ^
-../Core/Src/main.c:203:8: error: request for member 'Init' in something not a structure or union
-  203 |   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-      |        ^
-../Core/Src/main.c:203:28: error: 'TIM_COUNTERMODE_UP' undeclared (first use in this function)
-  203 |   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-      |                            ^~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:204:8: error: request for member 'Init' in something not a structure or union
-  204 |   htim2.Init.Period = 4294967295;
-      |        ^
-../Core/Src/main.c:205:8: error: request for member 'Init' in something not a structure or union
-  205 |   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-      |        ^
-../Core/Src/main.c:205:30: error: 'TIM_CLOCKDIVISION_DIV1' undeclared (first use in this function)
-  205 |   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-      |                              ^~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:206:8: error: request for member 'Init' in something not a structure or union
-  206 |   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-      |        ^
-../Core/Src/main.c:206:34: error: 'TIM_AUTORELOAD_PRELOAD_ENABLE' undeclared (first use in this function)
-  206 |   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:207:7: error: implicit declaration of function 'HAL_TIM_Base_Init' [-Wimplicit-function-declaration]
-  207 |   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
-      |       ^~~~~~~~~~~~~~~~~
-../Core/Src/main.c:211:21: error: request for member 'ClockSource' in something not a structure or union
-  211 |   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-      |                     ^
-../Core/Src/main.c:211:36: error: 'TIM_CLOCKSOURCE_INTERNAL' undeclared (first use in this function)
-  211 |   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:212:7: error: implicit declaration of function 'HAL_TIM_ConfigClockSource' [-Wimplicit-function-declaration]
-  212 |   if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
-      |       ^~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:216:7: error: implicit declaration of function 'HAL_TIM_IC_Init'; did you mean 'HAL_DMA_Init'? [-Wimplicit-function-declaration]
-  216 |   if (HAL_TIM_IC_Init(&htim2) != HAL_OK)
-      |       ^~~~~~~~~~~~~~~
-      |       HAL_DMA_Init
-../Core/Src/main.c:220:16: error: request for member 'MasterOutputTrigger' in something not a structure or union
-  220 |   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-      |                ^
-../Core/Src/main.c:220:39: error: 'TIM_TRGO_RESET' undeclared (first use in this function)
-  220 |   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-      |                                       ^~~~~~~~~~~~~~
-../Core/Src/main.c:221:16: error: request for member 'MasterSlaveMode' in something not a structure or union
-  221 |   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-      |                ^
-../Core/Src/main.c:221:35: error: 'TIM_MASTERSLAVEMODE_DISABLE' undeclared (first use in this function)
-  221 |   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:222:7: error: implicit declaration of function 'HAL_TIMEx_MasterConfigSynchronization'; did you mean 'HAL_TIM_SlaveConfigSynchronization'? [-Wimplicit-function-declaration]
-  222 |   if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      |       HAL_TIM_SlaveConfigSynchronization
-../Core/Src/main.c:226:12: error: request for member 'ICPolarity' in something not a structure or union
-  226 |   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
-      |            ^
-../Core/Src/main.c:226:26: error: 'TIM_INPUTCHANNELPOLARITY_RISING' undeclared (first use in this function)
-  226 |   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
-      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:227:12: error: request for member 'ICSelection' in something not a structure or union
-  227 |   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
-      |            ^
-../Core/Src/main.c:227:27: error: 'TIM_ICSELECTION_DIRECTTI' undeclared (first use in this function)
-  227 |   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
-      |                           ^~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:228:12: error: request for member 'ICPrescaler' in something not a structure or union
-  228 |   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-      |            ^
-../Core/Src/main.c:228:27: error: 'TIM_ICPSC_DIV1' undeclared (first use in this function)
-  228 |   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
-      |                           ^~~~~~~~~~~~~~
-../Core/Src/main.c:229:12: error: request for member 'ICFilter' in something not a structure or union
-  229 |   sConfigIC.ICFilter = 0;
-      |            ^
-../Core/Src/main.c:230:7: error: implicit declaration of function 'HAL_TIM_IC_ConfigChannel' [-Wimplicit-function-declaration]
-  230 |   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
-      |       ^~~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:230:52: error: 'TIM_CHANNEL_1' undeclared (first use in this function); did you mean 'DMA_CHANNEL_1'?
-  230 |   if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
-      |                                                    ^~~~~~~~~~~~~
-      |                                                    DMA_CHANNEL_1
-../Core/Src/main.c: In function 'MX_GPIO_Init':
-../Core/Src/main.c:259:21: error: 'LD2_GPIO_Port' undeclared (first use in this function); did you mean 'B_P2_GPIO_Port'?
-  259 |   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-      |                     ^~~~~~~~~~~~~
-      |                     B_P2_GPIO_Port
-../Core/Src/main.c:259:36: error: 'LD2_Pin' undeclared (first use in this function)
-  259 |   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-      |                                    ^~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:289:33: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'DMA_HandleTypeDef'?
-  289 | void HAL_TIM_IC_CaptureCAllback(TIM_HandleTypeDef *htim){
-      |                                 ^~~~~~~~~~~~~~~~~
-      |                                 DMA_HandleTypeDef
-make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
-"make -j12 all" terminated with exit code 2. Build might be incomplete.
-11:25:36 **** Clean-only build of configuration Debug for project Lab1_STM ****
-make clean 
-rm -rf ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.d ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
-rm -rf ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o
-rm -rf Lab1_STM
+arm-none-eabi-gcc -o "LAB7.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\abner\Documents\GitHub\Digital2\LAB7\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LAB7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LAB7.elf
  
-11:25:37 **** Build of configuration Debug for project Lab1_STM ****
-make all 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c
- 
-Building file: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.d" -MT"Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o" -o "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o" "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c"
-Finished building: ../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c
- 
-Building file: ../Core/Src/main.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" -o "Core/Src/main.o" "../Core/Src/main.c"
-Finished building: ../Core/Src/main.c
- 
-Building file: ../Core/Src/stm32f4xx_hal_msp.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" -o "Core/Src/stm32f4xx_hal_msp.o" "../Core/Src/stm32f4xx_hal_msp.c"
-Finished building: ../Core/Src/stm32f4xx_hal_msp.c
- 
-Building file: ../Core/Src/stm32f4xx_it.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" -o "Core/Src/stm32f4xx_it.o" "../Core/Src/stm32f4xx_it.c"
-Finished building: ../Core/Src/stm32f4xx_it.c
- 
-Building file: ../Core/Src/system_stm32f4xx.c
-Invoking: Cross GCC Compiler
-arm-none-eabi-gcc -DUSE_HAL_DRIVER -DSTM32F446xx -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -g3 -Wall -c -fmessage-length=0 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -MMD -MP -MF"Core/Src/system_stm32f4xx.d" -MT"Core/Src/system_stm32f4xx.o" -o "Core/Src/system_stm32f4xx.o" "../Core/Src/system_stm32f4xx.c"
-Finished building: ../Core/Src/system_stm32f4xx.c
- 
-Building target: Lab1_STM
-Invoking: Cross GCC Linker
-arm-none-eabi-gcc -specs=nano.specs -o "Lab1_STM" ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o  ./Core/Src/main.o ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_it.o ./Core/Src/system_stm32f4xx.o   
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ex.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Core/Src/main.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Core/Src/main.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Core/Src/stm32f4xx_hal_msp.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Core/Src/stm32f4xx_hal_msp.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Core/Src/stm32f4xx_it.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Core/Src/stm32f4xx_it.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: error: ./Core/Src/system_stm32f4xx.o uses VFP register arguments, Lab1_STM does not
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: failed to merge target specific data of file ./Core/Src/system_stm32f4xx.o
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-exit.o): in function `exit':
-(.text.exit+0x30): undefined reference to `_exit'
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1\libgcc.a(_aeabi_uldivmod.o)(__aeabi_uldivmod): Unknown destination type (ARM/Thumb) in ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o
-./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o: in function `HAL_RCC_GetSysClockFreq':
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c:913:(.text+0x8ec): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1\libgcc.a(_aeabi_uldivmod.o)(__aeabi_uldivmod): Unknown destination type (ARM/Thumb) in ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.o
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c:918:(.text+0x9a0): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1\libgcc.a(_aeabi_uldivmod.o)(__aeabi_uldivmod): Unknown destination type (ARM/Thumb) in ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
-./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o: in function `HAL_RCC_GetSysClockFreq':
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c:3123:(.text+0xfe4): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1\libgcc.a(_aeabi_uldivmod.o)(__aeabi_uldivmod): Unknown destination type (ARM/Thumb) in ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c:3128:(.text+0x10b6): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1\libgcc.a(_aeabi_uldivmod.o)(__aeabi_uldivmod): Unknown destination type (ARM/Thumb) in ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c:3143:(.text+0x11bc): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1\libgcc.a(_aeabi_uldivmod.o)(__aeabi_uldivmod): Unknown destination type (ARM/Thumb) in ./Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.o
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c:3148:(.text+0x128a): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-memset.o)(memset): Unknown destination type (ARM/Thumb) in ./Core/Src/main.o
-./Core/Src/main.o: in function `SystemClock_Config':
-C:/Users/abner/Documents/GitHub/Digital2/lab1_STM/Debug/../Core/Src/main.c:203:(.text+0x2a8): dangerous relocation: unsupported relocation
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-closer.o): in function `_close_r':
-(.text._close_r+0x18): undefined reference to `_close'
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-lseekr.o): in function `_lseek_r':
-(.text._lseek_r+0x20): undefined reference to `_lseek'
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-readr.o): in function `_read_r':
-(.text._read_r+0x20): undefined reference to `_read'
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-writer.o): in function `_write_r':
-(.text._write_r+0x20): undefined reference to `_write'
-C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_2.2.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/lib\libc_nano.a(libc_a-sbrkr.o): in function `_sbrk_r':
-(.text._sbrk_r+0x18): undefined reference to `_sbrk'
-collect2.exe: error: ld returned 1 exit status
-make: *** [makefile:44: Lab1_STM] Error 1
-"make all" terminated with exit code 2. Build might be incomplete.
-11:25:52 **** Build of configuration Debug for project TimerTiempo ****
-make -j12 all 
-arm-none-eabi-size  TimerTiempo.elf 
+arm-none-eabi-size  LAB7.elf 
+arm-none-eabi-objdump -h -S LAB7.elf  > "LAB7.list"
    text	   data	    bss	    dec	    hex	filename
-  30004	    468	   2212	  32684	   7fac	TimerTiempo.elf
+  25708	     92	   2236	  28036	   6d84	LAB7.elf
 Finished building: default.size.stdout
  
-11:25:54 **** Incremental Build of configuration Debug for project lab6 ****
+Finished building: LAB7.list
+ 
+23:47:28 **** Incremental Build of configuration Debug for project LAB7 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
-arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
-arm-none-eabi-gcc -o "lab6.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\abner\Documents\GitHub\Digital2\lab6\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lab6.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: lab6.elf
+arm-none-eabi-gcc -o "LAB7.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\abner\Documents\GitHub\Digital2\LAB7\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LAB7.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LAB7.elf
  
-arm-none-eabi-size  lab6.elf 
-arm-none-eabi-objdump -h -S lab6.elf  > "lab6.list"
+arm-none-eabi-size  LAB7.elf 
+arm-none-eabi-objdump -h -S LAB7.elf  > "LAB7.list"
    text	   data	    bss	    dec	    hex	filename
-  19908	     92	   2220	  22220	   56cc	lab6.elf
+  25724	     92	   2236	  28052	   6d94	LAB7.elf
 Finished building: default.size.stdout
  
-Finished building: lab6.list
+Finished building: LAB7.list
  
-11:45:11 **** Incremental Build of configuration Debug for project lab6 ****
+23:47:45 **** Incremental Build of configuration Debug for project LAB7 ****
 make -j12 all 
-arm-none-eabi-size  lab6.elf 
+arm-none-eabi-size  LAB7.elf 
    text	   data	    bss	    dec	    hex	filename
-  19908	     92	   2220	  22220	   56cc	lab6.elf
+  25724	     92	   2236	  28052	   6d94	LAB7.elf
 Finished building: default.size.stdout
- 
-12:23:33 **** Incremental Build of configuration Debug for project lab6 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:208:13: error: invalid storage class for function 'MX_ADC1_Init'
-  208 | static void MX_ADC1_Init(void)
-      |             ^~~~~~~~~~~~
-../Core/Src/main.c:269:13: error: invalid storage class for function 'MX_USART1_UART_Init'
-  269 | static void MX_USART1_UART_Init(void)
-      |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:302:13: error: invalid storage class for function 'MX_USART2_UART_Init'
-  302 | static void MX_USART2_UART_Init(void)
-      |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:333:13: error: invalid storage class for function 'MX_DMA_Init'
-  333 | static void MX_DMA_Init(void)
-      |             ^~~~~~~~~~~
-../Core/Src/main.c:351:13: error: invalid storage class for function 'MX_GPIO_Init'
-  351 | static void MX_GPIO_Init(void)
-      |             ^~~~~~~~~~~~
-../Core/Src/main.c:410:1: error: expected declaration or statement at end of input
-  410 | }
-      | ^
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:61:13: warning: 'MX_GPIO_Init' used but never defined
-   61 | static void MX_GPIO_Init(void);
-      |             ^~~~~~~~~~~~
-../Core/Src/main.c:62:13: warning: 'MX_DMA_Init' used but never defined
-   62 | static void MX_DMA_Init(void);
-      |             ^~~~~~~~~~~
-../Core/Src/main.c:63:13: warning: 'MX_ADC1_Init' used but never defined
-   63 | static void MX_ADC1_Init(void);
-      |             ^~~~~~~~~~~~
-../Core/Src/main.c:64:13: warning: 'MX_USART2_UART_Init' used but never defined
-   64 | static void MX_USART2_UART_Init(void);
-      |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:65:13: warning: 'MX_USART1_UART_Init' used but never defined
-   65 | static void MX_USART1_UART_Init(void);
-      |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:401:6: warning: 'Error_Handler' defined but not used [-Wunused-function]
-  401 | void Error_Handler(void)
-      |      ^~~~~~~~~~~~~
-../Core/Src/main.c:386:6: warning: 'HAL_UART_RxCpltCallback' defined but not used [-Wunused-function]
-  386 | void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-      |      ^~~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:351:13: warning: 'MX_GPIO_Init' defined but not used [-Wunused-function]
-  351 | static void MX_GPIO_Init(void)
-      |             ^~~~~~~~~~~~
-../Core/Src/main.c:333:13: warning: 'MX_DMA_Init' defined but not used [-Wunused-function]
-  333 | static void MX_DMA_Init(void)
-      |             ^~~~~~~~~~~
-../Core/Src/main.c:302:13: warning: 'MX_USART2_UART_Init' defined but not used [-Wunused-function]
-  302 | static void MX_USART2_UART_Init(void)
-      |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:269:13: warning: 'MX_USART1_UART_Init' defined but not used [-Wunused-function]
-  269 | static void MX_USART1_UART_Init(void)
-      |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:208:13: warning: 'MX_ADC1_Init' defined but not used [-Wunused-function]
-  208 | static void MX_ADC1_Init(void)
-      |             ^~~~~~~~~~~~
-../Core/Src/main.c:160:6: warning: 'SystemClock_Config' defined but not used [-Wunused-function]
-  160 | void SystemClock_Config(void)
-      |      ^~~~~~~~~~~~~~~~~~
-make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
-"make -j12 all" terminated with exit code 2. Build might be incomplete.
-12:25:06 **** Incremental Build of configuration Debug for project lab6 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "lab6.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\abner\Documents\GitHub\Digital2\lab6\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="lab6.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: lab6.elf
- 
-arm-none-eabi-size  lab6.elf 
-arm-none-eabi-objdump -h -S lab6.elf  > "lab6.list"
-   text	   data	    bss	    dec	    hex	filename
-  19908	     92	   2220	  22220	   56cc	lab6.elf
-Finished building: default.size.stdout
- 
-Finished building: lab6.list
  

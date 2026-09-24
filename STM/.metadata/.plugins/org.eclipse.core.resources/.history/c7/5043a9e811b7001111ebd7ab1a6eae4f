@@ -1,0 +1,65 @@
+/*
+ * seven_nation_army.h
+ * Seven Nation Army — The White Stripes (riff principal)
+ *
+ * El riff de guitarra más reconocible del rock moderno:
+ *   E  E  G  E  D  C  B   (× 2)
+ *
+ * Estructura modular:
+ *   sna_notas[]      → frecuencias (usa defines de notas.h)
+ *   sna_duraciones[]  → duración de cada nota en ms
+ *   SNA_LEN           → cantidad de notas
+ *
+ * Para Lab 7 Post Lab - IE3054 Electrónica Digital 2, UVG
+ */
+
+#ifndef SEVEN_NATION_ARMY_H
+#define SEVEN_NATION_ARMY_H
+
+#include "notas.h"
+
+/* ---- Duraciones en ms (BPM ≈ 120) ---- */
+#define SNA_E     250       /* corchea         */
+#define SNA_Q     500       /* negra           */
+#define SNA_QD    750       /* negra con punto */
+#define SNA_H     1000      /* blanca          */
+#define SNA_W     2000      /* redonda         */
+
+/* ---- Cantidad de notas ---- */
+#define SNA_LEN  17
+
+/* ---- Frecuencias de cada nota ---- */
+const uint16_t sna_notas[SNA_LEN] = {
+
+    /* Riff 1: E-E-G-E-D-C-B */
+    NOTE_E4,  NOTE_E4,  NOTE_G4,  NOTE_E4,
+    NOTE_D4,  NOTE_C4,  NOTE_B3,
+    REST,
+
+    /* Riff 2: repetición */
+    NOTE_E4,  NOTE_E4,  NOTE_G4,  NOTE_E4,
+    NOTE_D4,  NOTE_C4,  NOTE_B3,
+    REST,
+
+    /* Nota final sostenida */
+    NOTE_E4,
+};
+
+/* ---- Duración de cada nota (en ms) ---- */
+const uint16_t sna_duraciones[SNA_LEN] = {
+
+    /* Riff 1 */
+    SNA_QD,  SNA_E,   SNA_QD,  SNA_E,
+    SNA_QD,  SNA_Q,   SNA_H,
+    SNA_Q,
+
+    /* Riff 2 */
+    SNA_QD,  SNA_E,   SNA_QD,  SNA_E,
+    SNA_QD,  SNA_Q,   SNA_H,
+    SNA_Q,
+
+    /* Final */
+    SNA_W,
+};
+
+#endif /* SEVEN_NATION_ARMY_H */
