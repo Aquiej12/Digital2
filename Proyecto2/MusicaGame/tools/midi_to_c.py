@@ -10,14 +10,15 @@ Ver qué trae el MIDI:
 Convertir todo (una pista de salida por cada pista MIDI con notas; el instrumento se adivina):
     python midi_to_c.py cancion.mid -o song_cancion.h
 
-Elegir y combinar pistas:   --out "nombre=selectores:INSTRUMENTO:volumen"
+Elegir y combinar pistas:   --out "nombre=selectores:INSTRUMENTO:volumen[:canal]"
+    canal (1..8, opcional): agrupa pistas; cada una conserva su instrumento.
     selectores: t3 = pista MIDI 3, c10 = canal MIDI 10 (1..16), separados por coma.
     python midi_to_c.py cancion.mid -o song_cancion.h \
         --out "lead=t1:LEAD:0.40" --out "guitar=t2,t3:GUITAR:0.30" \
         --out "bass=t4:BASS:0.35" --out "drums=c10:DRUMS:0.25"
 
 Opciones:
-    --split             un .h por pista (song_x_lead.h, song_x_bass.h...) y song_x.h que las junta
+    --split             un .h por canal (song_x_canal1.h, song_x_canal2.h...) y song_x.h que los junta
     --name cancion      nombre C de la canción (por defecto, el del archivo)
     --grid 12           cuantiza a 12 ticks (semicorchea con PPQ=48). Por defecto 1 (sin cuantizar)
     --bpm 120           forzar BPM (si no, se toma el primer cambio de tempo del MIDI)
@@ -196,7 +197,7 @@ def main():
     ap.add_argument('--grid', type=int, default=1)
     ap.add_argument('--bpm', type=float)
     ap.add_argument('--split', action='store_true',
-                    help='un .h por pista (song_x_pista.h) + song_x.h que las junta')
+                    help='un .h por canal (song_x_canalN.h) + song_x.h que los junta')
     args = ap.parse_args()
 
     mid, tracks, names, programs, tempos = load_midi(args.midi)
@@ -231,15 +232,15 @@ def main():
     salidas = []
     if args.out:
         for spec in args.out:
-            m = re.match(r'^\s*([^=]+)=([^:]+)(?::([A-Za-z]+))?(?::([0-9.]+))?\s*$', spec)
+            m = re.match(r'^\s*([^=]+)=([^:]+)(?::([A-Za-z]+))?(?::([0-9.]+))?(?::([0-9]+))?\s*$', spec)
             if not m:
                 sys.exit(f"--out inválido: {spec}")
-            nombre, sels, inst, vol = m.groups()
+            nombre, sels, inst, vol, canal = m.groups()
             notas = select(tracks, sels.split(','))
             inst = (inst or guess_instrument(notas, {})).upper()
             if inst not in INSTRUMENTS:
                 sys.exit(f"Instrumento '{inst}' no existe. Opciones: {INSTRUMENTS}")
-            salidas.append((c_ident(nombre), notas, inst, float(vol) if vol else 0.3))
+            salidas.append((c_ident(nombre), notas, inst, float(vol) if vol else 0.3, int(canal) if canal else 1))
     else:
         for i, tr in enumerate(tracks):
             if tr:
@@ -247,7 +248,6 @@ def main():
 
     song = c_ident(args.name or os.path.splitext(os.path.basename(args.midi))[0])
     out = args.output or f"song_{song}.h"
-    salidas = [(n, notas, inst, vol) for n, notas, inst, vol in salidas]
     files, stats = generate_files(os.path.basename(args.midi), tpb, salidas, song, bpm, args.grid,
                                   args.split, os.path.basename(out))
     outdir = os.path.dirname(os.path.abspath(out))
@@ -255,7 +255,7 @@ def main():
         open(os.path.join(outdir, fn), 'w').write(txt)
         print(f"  -> {fn}")
     for st in stats:
-        print(f"  {st['nombre']}: {st['eventos']} eventos, polifonía máx. {st['poli']}, {st['inst']}, vol {st['vol']}")
+        print(f"  canal {st['canal']} · {st['nombre']}: {st['eventos']} eventos, polifonía máx. {st['poli']}, {st['inst']}, vol {st['vol']}")
     total = sum(st['bytes'] for st in stats)
     print(f"-> {out}  ({total} bytes de flash, {bpm} BPM, PPQ {PPQ})")
     if len(stats) > 8:
@@ -282,37 +282,61 @@ def seq_to_c(seq, drums):
 
 
 def generate_files(midi_name, tpb, salidas, song, bpm, grid, split, out_name):
-    """salidas: [(nombre, notas_midi, INSTRUMENTO, volumen)]. Devuelve ([(archivo, texto)], [stats])."""
+    """salidas: [(nombre, notas_midi, INSTRUMENTO, volumen[, canal])]. Devuelve ([(archivo, texto)], [stats]).
+    Canal: agrupa pistas (cada una conserva su instrumento). Las pistas se ordenan por canal y la canción
+    trae, por canal, la lista de índices de sus pistas. Con split se genera un .h por canal."""
     guard = f"SONG_{song.upper()}_H_"
+    U = song.upper()
+    salidas = [tuple(s) + (1,) if len(s) == 4 else tuple(s) for s in salidas]
+    salidas = sorted(salidas, key=lambda s: s[4])                 # orden estable por canal
+    canales = sorted({s[4] for s in salidas})
     L = [f"/*", f" * {out_name}", f" * Generado por midi_to_c.py desde {midi_name}",
          f" * Incluir en UN solo .c. Los arreglos son static const (flash).", f" */",
          f"#ifndef {guard}", f"#define {guard}", "", '#include "music.h"', '#include "synth.h"', "",
-         f"#define SONG_{song.upper()}_BPM {bpm}", ""]
+         f"#define SONG_{U}_BPM {bpm}", ""]
     files, stats, defs = [], [], []
-    for nombre, notas, inst, vol in salidas:
+    por_canal = {c: [] for c in canales}          # canal -> [(texto del arreglo)]
+    idx_canal = {c: [] for c in canales}          # canal -> índices en *_tracks[]
+    for i, (nombre, notas, inst, vol, canal) in enumerate(salidas):
         drums = inst == 'DRUMS'
         seq, poli = build_sequence(notas, tpb, grid, drums)
         arr = f"{song}_{nombre}"
-        A = [f"/* {nombre}: {len(seq)} eventos, polifonía máx. {poli}, instrumento {inst} */",
-             f"static const Note {arr}[] = {{"] + seq_to_c(seq, drums) + ["};"]
+        A = [f"/* {nombre}: canal {canal}, {len(seq)} eventos, polifonía máx. {poli}, instrumento {inst} */",
+             f"static const Note {arr}[] = {{"] + seq_to_c(seq, drums) + ["};", ""]
+        por_canal[canal] += A
+        idx_canal[canal].append(i)
+        defs.append((canal, f"\tTRACK({arr}, INST_{inst}, VOL({vol:.2f})),   /* pista {i} */"))
+        stats.append(dict(nombre=nombre, eventos=len(seq), poli=poli, inst=inst, vol=vol, canal=canal,
+                          bytes=6 * max(1, len(seq)), seq=seq, drums=drums))
+    for c in canales:
         if split:
-            fn = f"song_{song}_{nombre}.h"
-            g = f"SONG_{song.upper()}_{nombre.upper()}_H_"
-            P = [f"/*", f" * {fn}", f" * Pista '{nombre}' de {midi_name} (generado por midi_to_c.py)", f" */",
-                 f"#ifndef {g}", f"#define {g}", "", '#include "music.h"', ""] + A + ["", f"#endif /* {g} */", ""]
+            fn = f"song_{song}_canal{c}.h"
+            g = f"SONG_{U}_CANAL{c}_H_"
+            nombres = ", ".join(stats[i]['nombre'] for i in idx_canal[c])
+            P = [f"/*", f" * {fn}", f" * Canal {c} de {midi_name}: {nombres}  (generado por midi_to_c.py)", f" */",
+                 f"#ifndef {g}", f"#define {g}", "", '#include "music.h"', ""] + por_canal[c] + [f"#endif /* {g} */", ""]
             files.append((fn, "\n".join(P)))
             L.append(f'#include "{fn}"')
         else:
-            L += A + [""]
-        defs.append(f"\tTRACK({arr}, INST_{inst}, VOL({vol:.2f})),")
-        stats.append(dict(nombre=nombre, eventos=len(seq), poli=poli, inst=inst, vol=vol,
-                          bytes=6 * max(1, len(seq)), seq=seq, drums=drums))
+            L += [f"/* ======================== Canal {c} ======================== */"] + por_canal[c]
     if split:
         L.append("")
     L.append(f"static const TrackDef {song}_tracks[] = {{")
-    L += defs
-    L += ["};", "", f'static const Song song_{song} = {{ "{song}", SONG_{song.upper()}_BPM, {len(defs)}, {song}_tracks }};',
-          "", f"#endif /* {guard} */", ""]
+    ultimo = None
+    for c, d in defs:
+        if c != ultimo:
+            L.append(f"\t/* canal {c} */")
+            ultimo = c
+        L.append(d)
+    L += ["};", "", f'static const Song song_{song} = {{ "{song}", SONG_{U}_BPM, {len(defs)}, {song}_tracks }};', ""]
+    # índices de pista por canal: para subir/bajar/silenciar un canal completo con Music_SetTrackVolume
+    L += [f"/* Canales: índices de pista (en {song}_tracks[]) que pertenecen a cada canal.",
+          f" * Ej.: for (i = 0; i < SONG_{U}_CANAL{canales[0]}_N; i++) Music_SetTrackVolume({song}_canal{canales[0]}[i], 0); */",
+          f"#define SONG_{U}_NUM_CANALES {len(canales)}"]
+    for c in canales:
+        L.append(f"#define SONG_{U}_CANAL{c}_N {len(idx_canal[c])}")
+        L.append(f"static const uint8_t {song}_canal{c}[] __attribute__((unused)) = {{ {', '.join(map(str, idx_canal[c]))} }};")
+    L += ["", f"#endif /* {guard} */", ""]
     files.append((out_name, "\n".join(L)))
     return files, stats
 

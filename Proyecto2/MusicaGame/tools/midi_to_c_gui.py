@@ -86,6 +86,7 @@ class Row:
         self.out = tk.StringVar(value=mc.c_ident(name) or f"t{idx}")
         self.inst = tk.StringVar(value=inst)
         self.vol = tk.IntVar(value=40 if inst == 'LEAD' else 30)
+        self.canal = tk.IntVar(value=1)
 
 
 class App(tk.Tk):
@@ -158,7 +159,7 @@ class App(tk.Tk):
         cb = ttk.Combobox(top, textvariable=self.grid_name, values=[g[0] for g in GRIDS], width=18, state='readonly')
         cb.pack(side='left', padx=(4, 12))
         cb.bind('<<ComboboxSelected>>', lambda e: self.schedule())
-        ttk.Checkbutton(top, text="Un .h por pista", variable=self.split, style='Top.TCheckbutton',
+        ttk.Checkbutton(top, text="Un .h por canal", variable=self.split, style='Top.TCheckbutton',
                         command=self.schedule).pack(side='left', padx=(0, 12))
         ttk.Button(top, text="💾  Exportar .h…", style='Accent.TButton', command=self.export).pack(side='right')
         for v in (self.song, self.bpm):
@@ -171,7 +172,7 @@ class App(tk.Tk):
         # ---- tabla de pistas MIDI ----
         tf = ttk.Frame(pw, padding=8)
         pw.add(tf, weight=1)
-        ttk.Label(tf, text="PISTAS DEL MIDI  ·  mismo nombre de salida = se combinan en una pista",
+        ttk.Label(tf, text="PISTAS DEL MIDI  ·  Canal = grupo de pistas (cada una conserva su instrumento)  ·  mismo nombre de salida = se fusionan en una sola pista",
                   style='H.TLabel').pack(anchor='w', pady=(0, 6))
         holder = ttk.Frame(tf)
         holder.pack(fill='both', expand=True)
@@ -241,7 +242,9 @@ class App(tk.Tk):
         mf = ttk.Frame(nb, padding=8)
         nb.add(mf, text="📊  Memoria")
         cols = ('pista', 'inst', 'eventos', 'bytes', 'poli', 'dur')
-        self.mem = ttk.Treeview(mf, columns=cols, show='headings', height=10)
+        self.mem = ttk.Treeview(mf, columns=cols, show='tree headings', height=12)
+        self.mem.heading('#0', text='Canal')
+        self.mem.column('#0', width=110)
         for c, t, w in zip(cols, ('Pista de salida', 'Instrumento', 'Eventos (notas+silencios)', 'Bytes en flash',
                                   'Polifonía máx.', 'Duración'), (180, 110, 180, 120, 110, 100)):
             self.mem.heading(c, text=t)
@@ -282,8 +285,8 @@ class App(tk.Tk):
         for w in self.rows_frame.winfo_children():
             w.destroy()
         self.rows = []
-        heads = ("Usar", "Pista", "Nombre en el MIDI", "Canal", "Notas", "Rango", "→ Salida (nombre C)",
-                 "Instrumento", "Volumen", "")
+        heads = ("Usar", "Pista", "Nombre en el MIDI", "Canal MIDI", "Notas", "Rango", "Canal",
+                 "→ Salida (nombre C)", "Instrumento", "Volumen", "")
         for c, h in enumerate(heads):
             ttk.Label(self.rows_frame, text=h, style='H.TLabel').grid(row=0, column=c, sticky='w', padx=6, pady=(0, 4))
         r = 1
@@ -300,15 +303,17 @@ class App(tk.Tk):
             ttk.Label(self.rows_frame, text=chs).grid(row=r, column=3, sticky='w', padx=6)
             ttk.Label(self.rows_frame, text=str(len(tr))).grid(row=r, column=4, sticky='w', padx=6)
             ttk.Label(self.rows_frame, text=f"{mc.note_name(lo, 0)} – {mc.note_name(hi, 0)}").grid(row=r, column=5, sticky='w', padx=6)
-            ttk.Entry(self.rows_frame, textvariable=row.out, width=16).grid(row=r, column=6, sticky='w', padx=6, pady=2)
+            ttk.Spinbox(self.rows_frame, from_=1, to=8, textvariable=row.canal, width=3, state='readonly',
+                        command=self.schedule).grid(row=r, column=6, sticky='w', padx=6)
+            ttk.Entry(self.rows_frame, textvariable=row.out, width=16).grid(row=r, column=7, sticky='w', padx=6, pady=2)
             ttk.Combobox(self.rows_frame, textvariable=row.inst, values=mc.INSTRUMENTS, width=9,
-                         state='readonly').grid(row=r, column=7, sticky='w', padx=6)
+                         state='readonly').grid(row=r, column=8, sticky='w', padx=6)
             sp = ttk.Frame(self.rows_frame)
-            sp.grid(row=r, column=8, sticky='w', padx=6)
+            sp.grid(row=r, column=9, sticky='w', padx=6)
             ttk.Scale(sp, from_=0, to=100, variable=row.vol, length=110,
                       command=lambda v, rw=row: (rw.vol.set(int(float(v))), self.schedule())).pack(side='left')
             ttk.Label(sp, textvariable=row.vol, width=4).pack(side='left', padx=4)
-            for v in (row.out, row.inst):
+            for v in (row.out, row.inst, row.canal):
                 v.trace_add('write', lambda *a: self.schedule())
             r += 1
         if len({t for _, t in tempos}) > 1:
@@ -328,11 +333,12 @@ class App(tk.Tk):
                 continue
             name = mc.c_ident(row.out.get()) or f"t{row.idx}"
             if name not in groups:
-                groups[name] = [[], row.inst.get(), row.vol.get() / 100.0, []]
+                groups[name] = [[], row.inst.get(), row.vol.get() / 100.0, [], int(row.canal.get())]
                 order.append(name)
             groups[name][0] += row.notas
             groups[name][3].append(f"t{row.idx}")
-        return [(n, groups[n][0], groups[n][1], groups[n][2]) for n in order], {n: groups[n][3] for n in order}
+        return ([(n, groups[n][0], groups[n][1], groups[n][2], groups[n][4]) for n in order],
+                {n: groups[n][3] for n in order})
 
     def regenerate(self):
         self._pending = None
@@ -400,16 +406,17 @@ class App(tk.Tk):
         # bandas
         for k, (s, notes) in enumerate(zip(self.stats, tracks)):
             y0 = RULER_H + k * BAND_H
-            col = COLORS[k % len(COLORS)]
+            col = COLORS[(s['canal'] - 1) % len(COLORS)]
             c.create_rectangle(0, y0, width, y0 + BAND_H, fill='#1a1a22' if k % 2 else BG, outline='')
             c.create_line(0, y0, width, y0, fill=BARC)
             lc.create_rectangle(0, y0, LABEL_W, y0 + BAND_H, fill='#1d1d27', outline=BARC)
             lc.create_rectangle(0, y0, 5, y0 + BAND_H, fill=col, outline='')
-            lc.create_text(14, y0 + 16, anchor='w', text=s['nombre'], fill='white', font=('Segoe UI', 11, 'bold'))
-            lc.create_text(14, y0 + 36, anchor='w', text=f"{s['inst']} · vol {int(s['vol'] * 100)}", fill=TXT, font=('Segoe UI', 9))
-            lc.create_text(14, y0 + 54, anchor='w', text=f"de {', '.join(self.sources.get(s['nombre'], []))}", fill='#8a8aa0', font=('Segoe UI', 9))
-            lc.create_text(14, y0 + 72, anchor='w', text=f"{s['eventos']} eventos · {s['bytes']} B", fill='#8a8aa0', font=('Segoe UI', 9))
-            lc.create_text(14, y0 + 90, anchor='w', text=f"polifonía {s['poli']}", fill='#8a8aa0', font=('Segoe UI', 9))
+            lc.create_text(14, y0 + 16, anchor='w', text=s['nombre'][:17], fill='white', font=('Segoe UI', 11, 'bold'))
+            lc.create_text(14, y0 + 35, anchor='w', text=f"CANAL {s['canal']}", fill=col, font=('Segoe UI', 9, 'bold'))
+            lc.create_text(14, y0 + 53, anchor='w', text=f"{s['inst']} · vol {int(s['vol'] * 100)}", fill=TXT, font=('Segoe UI', 9))
+            lc.create_text(14, y0 + 70, anchor='w', text=f"de {', '.join(self.sources.get(s['nombre'], []))}", fill='#8a8aa0', font=('Segoe UI', 9))
+            lc.create_text(14, y0 + 87, anchor='w', text=f"{s['eventos']} eventos · {s['bytes']} B", fill='#8a8aa0', font=('Segoe UI', 9))
+            lc.create_text(14, y0 + 104, anchor='w', text=f"polifonía {s['poli']}", fill='#8a8aa0', font=('Segoe UI', 9))
             if not notes:
                 continue
             lo, hi = min(n[2] for n in notes), max(n[2] for n in notes)
@@ -463,13 +470,20 @@ class App(tk.Tk):
     def fill_mem(self):
         self.mem.delete(*self.mem.get_children())
         total, poli = 0, 0
-        for s in self.stats:
+        padres = {}
+        for k, s in enumerate(self.stats):
+            c = s['canal']
+            if c not in padres:
+                grupo = [x for x in self.stats if x['canal'] == c]
+                padres[c] = self.mem.insert('', 'end', text=f"Canal {c}", open=True, values=(
+                    f"{len(grupo)} pista(s)", "", sum(x['eventos'] for x in grupo),
+                    f"{sum(x['bytes'] for x in grupo):,}", sum(x['poli'] for x in grupo), ""))
             ticks = 0
             for n, d, v, ch in s['seq']:
                 ticks += 0 if ch else d
             secs = ticks / mc.PPQ * 60 / max(1, getattr(self, 'cur_bpm', 120))
-            self.mem.insert('', 'end', values=(s['nombre'], s['inst'], s['eventos'], f"{s['bytes']:,}", s['poli'],
-                                               f"{int(secs // 60)}:{int(secs % 60):02d}"))
+            self.mem.insert(padres[c], 'end', text=f"  pista {k}", values=(s['nombre'], s['inst'], s['eventos'],
+                                               f"{s['bytes']:,}", s['poli'], f"{int(secs // 60)}:{int(secs % 60):02d}"))
             total += s['bytes']
             poli += s['poli']
         aviso = ""

@@ -5,6 +5,10 @@
  */
 #include "synth.h"
 
+/* El render es el código más caliente del proyecto (voces x 32 000 muestras/s): se optimiza
+ * aunque el proyecto compile en -O0 (Debug). No cambia el resultado, solo la velocidad. */
+#pragma GCC optimize ("O2")
+
 /* ---------- Tabla de seno: 256 muestras int16 (512 bytes en flash) ---------- */
 static const int16_t sine_table[256] = {
 	     0,    804,   1608,   2410,   3212,   4011,   4808,   5602,   6393,   7179,   7962,   8739,   9512,  10278,  11039,  11793,

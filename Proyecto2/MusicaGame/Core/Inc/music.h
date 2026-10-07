@@ -70,7 +70,7 @@ typedef struct {
 	uint8_t  state;      /* TrackState */
 } Track;
 
-#define MUSIC_MAX_TRACKS 8
+#define MUSIC_MAX_TRACKS 16    /* antes 8: Beat It trae 16 pistas */
 
 /* ---------- API ---------- */
 void     Music_Init(uint32_t sample_rate);
