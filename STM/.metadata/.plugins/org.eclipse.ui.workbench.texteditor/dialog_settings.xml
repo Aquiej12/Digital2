@@ -2,22 +2,37 @@
 <section name="Workbench">
 	<section name="java.lang.Class">
 		<item key="replaceBarOpen" value="false"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
-			<item value="begin"/>
-			<item value="user code end 3"/>
-			<item value="case"/>
+			<item value="while(1)"/>
+			<item value="USER code begin pv"/>
+			<item value="process_audio"/>
+			<item value="band_Q"/>
+			<item value="Vocoder_ini"/>
+			<item value="HAL_I2S_re"/>
+			<item value="HAL"/>
+			<item value="EnvFollo"/>
+			<item value="HAL_I2s_rec"/>
+			<item value="user code begin 2"/>
+			<item value="procces"/>
 			<item value="while"/>
-			<item value="user code "/>
-			<item value="main"/>
-			<item value="USER CODE END "/>
-			<item value="USER CODE END ADC1_Init 2"/>
-			<item value="a"/>
-			<item value="scon"/>
-			<item value="Hadc1.Ini"/>
-			<item value="USER CODE END 3"/>
-			<item value="hal_GPIO"/>
-			<item value="hal"/>
-			<item value="whil"/>
+			<item value="process"/>
+			<item value="whi"/>
+			<item value="loop"/>
 		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="615"/>
+		<item key="DIALOG_Y_ORIGIN" value="153"/>
+		<item key="DIALOG_WIDTH" value="321"/>
+		<item key="DIALOG_HEIGHT" value="393"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
 	</section>
 </section>

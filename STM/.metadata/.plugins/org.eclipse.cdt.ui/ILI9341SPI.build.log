@@ -1,4 +1,4 @@
-10:24:01 **** Build of configuration Debug for project ILI9341SPI ****
+10:25:38 **** Build of configuration Debug for project ILI9341SPI ****
 make -j12 all 
 arm-none-eabi-size  ILI9341SPI.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  ILI9341SPI.elf
 Finished building: default.size.stdout
  
 
-10:24:03 Build Finished. 0 errors, 0 warnings. (took 1s.443ms)
+10:25:38 Build Finished. 0 errors, 0 warnings. (took 446ms)
 

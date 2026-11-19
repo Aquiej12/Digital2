@@ -1,0 +1,162 @@
+/*
+ * NeoPixel Equalizer — Arduino
+ * Recibe 8 bandas de frecuencia del STM32 vocoder por UART
+ * y las muestra como ecualizador en una tira de NeoPixels.
+ *
+ * Protocolo binario (10 bytes):
+ *   [0xFF] [b0] [b1] [b2] [b3] [b4] [b5] [b6] [b7] [0xFE]
+ *   Cada banda: 0-254 (intensidad)
+ *
+ * Conexiones:
+ *   STM32 PA2 (UART2 TX) → Arduino pin RX (pin 0)
+ *   STM32 GND            → Arduino GND
+ *   NeoPixel DIN          → Arduino pin 6
+ *   NeoPixel VCC          → 5V
+ *   NeoPixel GND          → GND
+ *
+ * IMPORTANTE: Desconectar PA2→Arduino RX al programar el Arduino
+ *             (comparten el pin RX con USB serial)
+ *
+ * Librería: Adafruit NeoPixel
+ */
+
+#include <Adafruit_NeoPixel.h>
+
+/* ══════ CONFIGURACIÓN — AJUSTA SEGÚN TU TIRA ══════ */
+#define LED_PIN      6       /* Pin de datos del NeoPixel        */
+#define NUM_LEDS     64      /* Total de LEDs en la tira         */
+#define COLS         8       /* Columnas = bandas de frecuencia  */
+#define ROWS         (NUM_LEDS / COLS)  /* Filas por columna     */
+#define BRIGHTNESS   60      /* Brillo global (0-255)            */
+/* ═══════════════════════════════════════════════════ */
+
+Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+uint8_t bands[8]      = {0};
+uint8_t bands_smooth[8] = {0};  /* Para caída suave */
+
+/* Colores por banda (graves→agudos: rojo→naranja→amarillo→verde→cyan→azul→violeta→rosa) */
+static const uint32_t band_colors[8] = {
+    0xFF0000,  /* 200 Hz  — rojo       */
+    0xFF4400,  /* 400 Hz  — naranja    */
+    0xFFAA00,  /* 800 Hz  — amarillo   */
+    0x00FF00,  /* 1200 Hz — verde      */
+    0x00FFAA,  /* 2000 Hz — cyan       */
+    0x0044FF,  /* 3200 Hz — azul       */
+    0x8800FF,  /* 4800 Hz — violeta    */
+    0xFF00AA,  /* 6400 Hz — rosa       */
+};
+
+void setup() {
+    Serial.begin(115200);
+
+    strip.begin();
+    strip.setBrightness(BRIGHTNESS);
+    strip.clear();
+    strip.show();
+
+    /* Animación de inicio: barrido arcoíris */
+    for (int i = 0; i < NUM_LEDS; i++) {
+        uint8_t hue = (i * 256) / NUM_LEDS;
+        strip.setPixelColor(i, strip.ColorHSV(hue * 256, 255, 100));
+        strip.show();
+        delay(15);
+    }
+    delay(300);
+    strip.clear();
+    strip.show();
+}
+
+void loop() {
+    /* ── Leer paquete UART ── */
+    while (Serial.available() > 0) {
+        uint8_t b = Serial.read();
+
+        if (b == 0xFF) {
+            /* Esperar los 9 bytes restantes */
+            unsigned long t0 = millis();
+            while (Serial.available() < 9 && millis() - t0 < 50)
+                ;  /* timeout 50 ms */
+
+            if (Serial.available() >= 9) {
+                uint8_t temp[8];
+                for (int i = 0; i < 8; i++) {
+                    temp[i] = Serial.read();
+                }
+                uint8_t end_byte = Serial.read();
+
+                if (end_byte == 0xFE) {
+                    /* Paquete válido */
+                    for (int i = 0; i < 8; i++) {
+                        bands[i] = temp[i];
+                    }
+                    updateLEDs();
+                }
+            }
+            /* Si no llegaron los bytes, se descarta y re-sincroniza */
+        }
+        /* Si no es 0xFF, descartar (re-sync) */
+    }
+}
+
+/*
+ * Mapear las 8 bandas a columnas de LEDs.
+ * Cada columna sube según la intensidad de esa banda.
+ * Caída suave para efecto visual agradable.
+ */
+void updateLEDs() {
+    strip.clear();
+
+    for (int col = 0; col < COLS; col++) {
+        /* Suavizar: subida rápida, caída lenta */
+        if (bands[col] > bands_smooth[col]) {
+            bands_smooth[col] = bands[col];           /* subida inmediata */
+        } else {
+            /* Caída: restar ~8% por frame */
+            int16_t diff = (int16_t)bands_smooth[col] - (bands_smooth[col] >> 3) - 2;
+            if (diff < 0) diff = 0;
+            bands_smooth[col] = (uint8_t)diff;
+        }
+
+        /* Cuántas filas encender */
+        int height = map(bands_smooth[col], 0, 254, 0, ROWS);
+        if (height > ROWS) height = ROWS;
+
+        /* Color base de esta banda */
+        uint8_t r_base = (band_colors[col] >> 16) & 0xFF;
+        uint8_t g_base = (band_colors[col] >> 8)  & 0xFF;
+        uint8_t b_base =  band_colors[col]        & 0xFF;
+
+        for (int row = 0; row < height; row++) {
+            /*
+             * Índice del LED en la tira.
+             * Si tu tira está en zigzag (serpentina), descomenta la línea alternativa.
+             */
+            int idx = col * ROWS + row;
+
+            /* Para tiras en zigzag (columnas pares suben, impares bajan):
+             * int idx;
+             * if (col % 2 == 0)
+             *     idx = col * ROWS + row;
+             * else
+             *     idx = col * ROWS + (ROWS - 1 - row);
+             */
+
+            /* Atenuar el color según la altura (más brillante arriba) */
+            float bright = 0.3f + 0.7f * ((float)row / (float)ROWS);
+            uint8_t r = (uint8_t)(r_base * bright);
+            uint8_t g = (uint8_t)(g_base * bright);
+            uint8_t b = (uint8_t)(b_base * bright);
+
+            strip.setPixelColor(idx, strip.Color(r, g, b));
+        }
+
+        /* Pico brillante (la fila más alta encendida brilla más) */
+        if (height > 0) {
+            int peak_idx = col * ROWS + height - 1;
+            strip.setPixelColor(peak_idx, strip.Color(255, 255, 255));
+        }
+    }
+
+    strip.show();
+}

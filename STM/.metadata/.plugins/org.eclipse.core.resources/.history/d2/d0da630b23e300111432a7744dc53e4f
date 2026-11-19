@@ -1,0 +1,421 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2026 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "adc.h"
+#include "dac.h"
+#include "dma.h"
+#include "i2s.h"
+#include "tim.h"
+#include "gpio.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include <math.h>
+#include <string.h>
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+#define BLOCK_SIZE       128
+#define I2S_BUF_SIZE     (BLOCK_SIZE * 2 * 2)
+#define DAC_BUF_SIZE     (BLOCK_SIZE * 2)
+#define NUM_BANDS        8
+#define SAMPLE_RATE      16000.0f
+#define TWO_PI           6.2831853f
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+
+/* USER CODE BEGIN PV */
+static int16_t i2s_rx_buf[I2S_BUF_SIZE];
+static uint16_t dac_tx_buf[DAC_BUF_SIZE];
+static volatile uint8_t i2s_half_ready = 0;
+static volatile uint8_t i2s_full_ready = 0;
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* ── FILTRO BIQUAD ──────────────────────────────────────── */
+typedef struct {
+    float b0, b1, b2;
+    float a1, a2;
+    float z1, z2;
+} Biquad;
+
+static void Biquad_InitBandpass(Biquad *f, float fc, float Q) {
+    float w0 = TWO_PI * fc / SAMPLE_RATE;
+    float alpha = sinf(w0) / (2.0f * Q);
+    float a0_inv = 1.0f / (1.0f + alpha);
+
+    f->b0 =  alpha * a0_inv;
+    f->b1 =  0.0f;
+    f->b2 = -alpha * a0_inv;
+    f->a1 = -2.0f * cosf(w0) * a0_inv;
+    f->a2 =  (1.0f - alpha) * a0_inv;
+    f->z1 = 0.0f;
+    f->z2 = 0.0f;
+}
+
+static void Biquad_InitHighpass(Biquad *f, float fc, float Q) {
+    float w0 = TWO_PI * fc / SAMPLE_RATE;
+    float alpha = sinf(w0) / (2.0f * Q);
+    float cosw0 = cosf(w0);
+    float a0_inv = 1.0f / (1.0f + alpha);
+
+    f->b0 =  (1.0f + cosw0) / 2.0f * a0_inv;
+    f->b1 = -(1.0f + cosw0) * a0_inv;
+    f->b2 =  (1.0f + cosw0) / 2.0f * a0_inv;
+    f->a1 = -2.0f * cosw0 * a0_inv;
+    f->a2 =  (1.0f - alpha) * a0_inv;
+    f->z1 = 0.0f;
+    f->z2 = 0.0f;
+}
+
+static inline float Biquad_Process(Biquad *f, float in) {
+    float out = f->b0 * in + f->z1;
+    f->z1 = f->b1 * in - f->a1 * out + f->z2;
+    f->z2 = f->b2 * in - f->a2 * out;
+    return out;
+}
+
+/* ── DETECTOR DE ENVOLVENTE ─────────────────────────────── */
+typedef struct {
+    float env;
+    float attack;
+    float release;
+} EnvFollower;
+
+static void EnvFollower_Init(EnvFollower *e, float attack_ms, float release_ms) {
+    e->env = 0.0f;
+    e->attack  = 1.0f - expf(-1.0f / (SAMPLE_RATE * attack_ms / 1000.0f));
+    e->release = 1.0f - expf(-1.0f / (SAMPLE_RATE * release_ms / 1000.0f));
+}
+
+static inline float EnvFollower_Process(EnvFollower *e, float in) {
+    float abs_in = fabsf(in);
+    if (abs_in > e->env)
+        e->env += e->attack * (abs_in - e->env);
+    else
+        e->env += e->release * (abs_in - e->env);
+    return e->env;
+}
+
+/* ── OSCILADOR DIENTE DE SIERRA ─────────────────────────── */
+typedef struct {
+    float phase;
+    float phase_inc;
+} SawOsc;
+
+static void SawOsc_SetFreq(SawOsc *osc, float freq) {
+    osc->phase_inc = freq / SAMPLE_RATE;
+}
+
+static inline float SawOsc_Process(SawOsc *osc) {
+    float out = 2.0f * osc->phase - 1.0f;
+    osc->phase += osc->phase_inc;
+    if (osc->phase >= 1.0f)
+        osc->phase -= 1.0f;
+    return out;
+}
+
+/* ── VOCODER ────────────────────────────────────────────── */
+typedef struct {
+    Biquad      analysis[NUM_BANDS];
+    Biquad      synthesis[NUM_BANDS];
+    EnvFollower envelope[NUM_BANDS];
+    SawOsc      carrier;
+    float       band_gain[NUM_BANDS];
+} Vocoder;
+
+static Vocoder voc;
+
+static const float band_freqs[NUM_BANDS] = {
+    200.0f, 400.0f, 800.0f, 1200.0f,
+    2000.0f, 3200.0f, 4800.0f, 6400.0f
+};
+
+static const float band_Q[NUM_BANDS] = {
+    4.0f, 4.0f, 4.0f, 4.0f,
+    4.0f, 4.0f, 4.0f, 4.0f
+};
+
+static void Vocoder_Init(Vocoder *v, float carrier_freq) {
+    for (int i = 0; i < NUM_BANDS; i++) {
+        Biquad_InitBandpass(&v->analysis[i],  band_freqs[i], band_Q[i]);
+        Biquad_InitBandpass(&v->synthesis[i], band_freqs[i], band_Q[i]);
+        EnvFollower_Init(&v->envelope[i], 1.0f, 20.0f);
+        v->band_gain[i] = 1.0f;
+    }
+    v->band_gain[5] = 1.3f;
+    v->band_gain[6] = 1.5f;
+    v->band_gain[7] = 1.2f;
+
+    v->carrier.phase = 0.0f;
+    SawOsc_SetFreq(&v->carrier, carrier_freq);
+}
+
+static inline float Vocoder_Process(Vocoder *v, float voice_in) {
+    float carrier_sample = SawOsc_Process(&v->carrier);
+    float output = 0.0f;
+
+    for (int i = 0; i < NUM_BANDS; i++) {
+        float band_voice = Biquad_Process(&v->analysis[i], voice_in);
+        float env = EnvFollower_Process(&v->envelope[i], band_voice);
+        float band_carrier = Biquad_Process(&v->synthesis[i], carrier_sample);
+        output += band_carrier * env * v->band_gain[i];
+    }
+    return output;
+}
+
+/* ── PROCESAMIENTO DE AUDIO ─────────────────────────────── */
+
+static float read_carrier_freq(void) {
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 2);
+    uint32_t adc_val = HAL_ADC_GetValue(&hadc1);
+    float freq = 80.0f + (float)adc_val * (320.0f / 4095.0f);
+    return freq;
+}
+
+/* Filtro pasa-altos a 200 Hz — corta ruido de impresora/ventilador */
+static Biquad hp_filter;
+
+static void process_audio_block(int16_t *i2s_ptr, uint16_t *dac_ptr) {
+    int16_t max_val = 0;
+
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        int16_t raw = i2s_ptr[i * 2];
+
+        int16_t abs_raw = (raw < 0) ? -raw : raw;
+        if (abs_raw > max_val) max_val = abs_raw;
+
+        float sample = (float)raw / 32768.0f;
+
+        /* Pasa-altos 200 Hz (biquad, mucho mejor que el filtro DC) */
+        float filtered = Biquad_Process(&hp_filter, sample);
+
+        /* Ganancia x200 con saturación suave (no hard clip)
+         * x/(1+|x|) comprime en vez de cortar — suena limpio */
+        filtered *= 200.0f;
+        filtered = filtered / (1.0f + fabsf(filtered));
+
+        /* DAC 12-bit, rango completo */
+        float out = filtered * 2047.0f + 2048.0f;
+        if (out > 4095.0f) out = 4095.0f;
+        if (out < 0.0f) out = 0.0f;
+
+        dac_ptr[i] = (uint16_t)out;
+    }
+
+    /* LED LD2: se prende cuando hay voz */
+    if (max_val > 100)
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+    else
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+}
+
+/* ── CALLBACKS DMA ──────────────────────────────────────── */
+
+void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s) {
+    if (hi2s->Instance == SPI2) {
+        i2s_half_ready = 1;
+    }
+}
+
+void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s) {
+    if (hi2s->Instance == SPI2) {
+        i2s_full_ready = 1;
+    }
+}
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_DMA_Init();
+  MX_I2S2_Init();
+  MX_DAC_Init();
+  MX_ADC1_Init();
+  MX_TIM6_Init();
+  /* USER CODE BEGIN 2 */
+
+  /* Filtro pasa-altos 200 Hz — elimina ruido ambiental bajo */
+  Biquad_InitHighpass(&hp_filter, 200.0f, 0.707f);
+
+  Vocoder_Init(&voc, 150.0f);
+  HAL_I2S_Receive_DMA(&hi2s2, (uint16_t *)i2s_rx_buf, I2S_BUF_SIZE);
+  HAL_TIM_Base_Start(&htim6);
+  HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_1,
+                    (uint32_t *)dac_tx_buf, DAC_BUF_SIZE,
+                    DAC_ALIGN_12B_R);
+
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+      if (i2s_half_ready) {
+          i2s_half_ready = 0;
+          process_audio_block(&i2s_rx_buf[0], &dac_tx_buf[0]);
+      }
+      if (i2s_full_ready) {
+          i2s_full_ready = 0;
+          process_audio_block(&i2s_rx_buf[I2S_BUF_SIZE / 2], &dac_tx_buf[BLOCK_SIZE]);
+      }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 180;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 2;
+  RCC_OscInitStruct.PLL.PLLR = 2;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Activate the Over-Drive mode
+  */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+#ifdef USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */
